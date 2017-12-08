@@ -2,7 +2,7 @@ import ch.tutteli.atrium.api.cc.en_UK.toBe
 import ch.tutteli.atrium.verbs.expect.expect
 import org.junit.Test
 
-class TestSource {
+class Day1Test {
 
     @Test
     fun shouldSolveFirstPuzzle() {
