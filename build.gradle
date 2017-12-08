@@ -1,35 +1,17 @@
-buildscript {
-    ext {
-        kotlin_version = '1.2.0'
-        atrium_version = '0.4.0'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.0"
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'application'
-
-mainClassName = 'demo.HelloWorldKt'
-
-defaultTasks 'run'
+apply plugin: "kotlin"
+defaultTasks "test"
 
 repositories {
-    mavenCentral()
     jcenter()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "ch.tutteli:atrium-cc-en_UK-robstoll:$atrium_version"
-    testCompile "ch.tutteli:atrium-verbs:$atrium_version"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.0"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:1.2.0"
+    testCompile "ch.tutteli:atrium-cc-en_UK-robstoll:0.4.0"
+    testCompile "ch.tutteli:atrium-verbs:0.4.0"
 }
