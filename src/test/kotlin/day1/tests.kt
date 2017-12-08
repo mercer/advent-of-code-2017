@@ -7,10 +7,10 @@ import org.junit.Test
 class TestSource {
 
     @Test
-    fun shouldSolvePuzzle() {
-        expect(day1.run("1122")).toBe(3)
-        expect(day1.run("1111")).toBe(4)
-        expect(day1.run("1234")).toBe(0)
-        expect(day1.run("91212129")).toBe(9)
+    fun shouldSolveFirstPuzzle() {
+        expect(day1.first("1122")).toBe(3)
+        expect(day1.first("1111")).toBe(4)
+        expect(day1.first("1234")).toBe(0)
+        expect(day1.first("91212129")).toBe(9)
     }
 }
