@@ -4,9 +4,6 @@ class Day9 {
     }
 
     fun first(input: String): Int {
-        // {{<a!>},{<a!>},{<a!>},{<ab>}}
-
-        // {{<a!>},{<a!>},{<a!>},{<ab>}}
         var escapeNext = false;
         var garbage = false;
         val firstPass = input
@@ -16,22 +13,22 @@ class Day9 {
                         when {
                             !escapeNext -> escapeNext = true
                             escapeNext -> escapeNext = false
-                        }; '-'
+                        }; 'g'
                     }
                     '<' -> {
-                        garbage = true; '-'
+                        garbage = true; 'g'
                     }
                     '>' -> {
                         when {
                             !escapeNext -> garbage = false
                             else -> escapeNext = false
-                        }; '-'
+                        }; 'g'
                     }
                     '{' -> {
                         when {
                             garbage -> {
                                 if (escapeNext) escapeNext = false
-                                '-'
+                                'g'
                             }
                             else -> {
                                 '{'
@@ -42,7 +39,7 @@ class Day9 {
                         when {
                             garbage -> {
                                 if (escapeNext) escapeNext = false
-                                '-'
+                                'g'
                             }
                             else -> {
                                 '}'
@@ -52,13 +49,13 @@ class Day9 {
                     else -> {
                         when {
                             escapeNext -> escapeNext = false
-                        }; '-'
+                        }; 'g'
                     }
                 }
             }
+            .filter { c -> c != 'g' }
+        println(firstPass)
 
-        // 12000000200000020000002000000 should be
-        // 12000000000000000000000000000
         val value = 1
         var multiplier = 0
         val secondPass = firstPass
@@ -83,16 +80,5 @@ class Day9 {
             .reduce { sum, item -> sum + item }
             .toInt()
     }
-
-    fun second(input: String): Int {
-        return 0
-    }
-
 }
-
-fun main(args: Array<String>) {
-    println(Day9().first(Day9().input()))
-    println(Day9().second(Day9().input()))
-}
-
 

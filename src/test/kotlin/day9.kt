@@ -5,6 +5,11 @@ import org.junit.Test
 class Day9Test {
 
     @Test
+    fun first_0() {
+        expect(Day9().first(Day9().input())).toBe(-1)
+    }
+
+    @Test
     fun first_1() {
         expect(Day9().first("{}")).toBe(1)
     }
@@ -94,7 +99,4 @@ class Day9Test {
         expect(Day9().first("{<!!!!!>{}>}")).toBe(1) // 1
     }
 
-    @Test
-    fun shouldSolveSecondPuzzle() {
-    }
 }
