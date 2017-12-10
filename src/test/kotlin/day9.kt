@@ -6,7 +6,7 @@ class Day9Test {
 
     @Test
     fun run() {
-        println("Solution to puzzle is solution=" + Day9().run(Day9().input()))
+        println("solution=" + Day9().run(Day9().input()))
     }
 
     @Test
