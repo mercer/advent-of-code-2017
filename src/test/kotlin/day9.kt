@@ -5,8 +5,8 @@ import org.junit.Test
 class Day9Test {
 
     @Test
-    fun first_0() {
-        expect(Day9().first(Day9().input())).toBe(-1)
+    fun first_0_actual_answer() {
+        println(Day9().first(Day9().input()))
     }
 
     @Test
@@ -97,6 +97,11 @@ class Day9Test {
     @Test
     fun first_18() {
         expect(Day9().first("{<!!!!!>{}>}")).toBe(1) // 1
+    }
+
+    @Test
+    fun first_19() {
+        expect(Day9().first("{<!<>{}}")).toBe(3) // 1 + 2
     }
 
 }

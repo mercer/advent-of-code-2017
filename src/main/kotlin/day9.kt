@@ -16,21 +16,28 @@ class Day9 {
                         }; 'g'
                     }
                     '<' -> {
-                        garbage = true; 'g'
+                        escapeNext = false
+                        garbage = true
+                        'g'
                     }
                     '>' -> {
                         when {
-                            !escapeNext -> garbage = false
-                            else -> escapeNext = false
+                            !escapeNext -> {
+                                garbage = false
+                            }
+                            else -> {
+                                escapeNext = false
+                            }
                         }; 'g'
                     }
                     '{' -> {
                         when {
                             garbage -> {
-                                if (escapeNext) escapeNext = false
+                                escapeNext = false
                                 'g'
                             }
                             else -> {
+                                escapeNext = false
                                 '{'
                             }
                         }
@@ -38,23 +45,22 @@ class Day9 {
                     '}' -> {
                         when {
                             garbage -> {
-                                if (escapeNext) escapeNext = false
+                                escapeNext = false
                                 'g'
                             }
                             else -> {
+                                escapeNext = false
                                 '}'
                             }
                         }
                     }
                     else -> {
-                        when {
-                            escapeNext -> escapeNext = false
-                        }; 'g'
+                        escapeNext = false
+                        'g'
                     }
                 }
             }
             .filter { c -> c != 'g' }
-        println(firstPass)
 
         val value = 1
         var multiplier = 0
@@ -70,10 +76,12 @@ class Day9 {
                         0
                     }
                     else -> {
-                        0
+                        throw RuntimeException("Unexpected character char=" + c)
                     }
                 }
             }
+
+        println(firstPass)
         println(secondPass)
 
         return secondPass
