@@ -3,68 +3,112 @@ class Day9 {
         return this::class.java.classLoader.getResource("day9.txt").readText();
     }
 
-    fun first(input: String): Int {
-        var escapeNext = false;
-        var garbage = false;
-        val firstPass = input
+    fun run(input: String): Pair<Int, Int> {
+        var isEscapeNext = false;
+        var isGarbageSection = false;
+        val GARBAGE = 'G'
+        val GARBAGE_CONTROL = '#'
+        val CANCELLED_GARBAGE = 'C'
+        val annotatedInput = input
             .map { c ->
                 when (c) {
                     '!' -> {
                         when {
-                            !escapeNext -> escapeNext = true
-                            escapeNext -> escapeNext = false
-                        }; 'g'
+                            !isEscapeNext -> isEscapeNext = true
+                            isEscapeNext -> isEscapeNext = false
+                        }; GARBAGE_CONTROL
                     }
                     '<' -> {
-                        escapeNext = false
-                        garbage = true
-                        'g'
+                        when {
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            isGarbageSection -> {
+                                GARBAGE
+                            }
+                            else -> {
+                                isGarbageSection = true
+                                GARBAGE_CONTROL
+                            }
+                        }
                     }
                     '>' -> {
                         when {
-                            !escapeNext -> {
-                                garbage = false
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            isGarbageSection -> {
+                                isGarbageSection = false
+                                GARBAGE_CONTROL
                             }
                             else -> {
-                                escapeNext = false
+                                throw RuntimeException("expected garbage section when encountering not-cancelled '>'")
                             }
-                        }; 'g'
+                        }
                     }
                     '{' -> {
                         when {
-                            garbage -> {
-                                escapeNext = false
-                                'g'
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            isGarbageSection -> {
+                                GARBAGE
                             }
                             else -> {
-                                escapeNext = false
                                 '{'
                             }
                         }
                     }
                     '}' -> {
                         when {
-                            garbage -> {
-                                escapeNext = false
-                                'g'
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            isGarbageSection -> {
+                                GARBAGE
                             }
                             else -> {
-                                escapeNext = false
                                 '}'
                             }
                         }
                     }
+                    ',' -> {
+                        when {
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            isGarbageSection -> {
+                                GARBAGE
+                            }
+                            else -> {
+                                ','
+                            }
+                        }
+                    }
                     else -> {
-                        escapeNext = false
-                        'g'
+                        when {
+                            isEscapeNext -> {
+                                isEscapeNext = false
+                                CANCELLED_GARBAGE
+                            }
+                            else -> {
+                                GARBAGE
+                            }
+                        }
                     }
                 }
             }
-            .filter { c -> c != 'g' }
 
         val value = 1
         var multiplier = 0
-        val secondPass = firstPass
+        val firstPartSolution = annotatedInput
+            .filter { c -> c !in arrayListOf(GARBAGE, GARBAGE_CONTROL, CANCELLED_GARBAGE) }
+            .filter { c -> c != ',' }
             .map { c ->
                 when (c) {
                     '{' -> {
@@ -75,18 +119,19 @@ class Day9 {
                         multiplier--
                         0
                     }
+
                     else -> {
                         throw RuntimeException("Unexpected character char=" + c)
                     }
                 }
-            }
+            }.reduce { sum, item -> sum + item }
 
-        println(firstPass)
-        println(secondPass)
+        val secondPartSolution = annotatedInput
+            .filter { c -> c == GARBAGE }
+            .size
 
-        return secondPass
-            .reduce { sum, item -> sum + item }
-            .toInt()
+        return Pair(firstPartSolution, secondPartSolution)
     }
+
 }
 
